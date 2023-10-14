@@ -10,18 +10,6 @@ namespace TournamentBracket.BackEnd.V1.Persistence.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "MatchCategories",
-                columns: table => new
-                {
-                    MatchCategoryID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    MatchTypeName = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MatchCategories", x => x.MatchCategoryID);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Teams",
                 columns: table => new
                 {
@@ -48,6 +36,25 @@ namespace TournamentBracket.BackEnd.V1.Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tournaments", x => x.TournamentID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MatchCategories",
+                columns: table => new
+                {
+                    MatchCategoryID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    MatchTypeName = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
+                    TournamentID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MatchCategories", x => x.MatchCategoryID);
+                    table.ForeignKey(
+                        name: "FK_MatchCategories_Tournaments_TournamentID",
+                        column: x => x.TournamentID,
+                        principalTable: "Tournaments",
+                        principalColumn: "TournamentID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -140,8 +147,7 @@ namespace TournamentBracket.BackEnd.V1.Persistence.Migrations
                     TournamentID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     MatchID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    IsMatchCompleted = table.Column<bool>(type: "bit", nullable: false),
-                    TeamID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    IsMatchCompleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -159,6 +165,11 @@ namespace TournamentBracket.BackEnd.V1.Persistence.Migrations
                         principalColumn: "TournamentID",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MatchCategories_TournamentID",
+                table: "MatchCategories",
+                column: "TournamentID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Matches_TournamentID",

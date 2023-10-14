@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using TournamentBracket.BackEnd.V1.Common.DTO;
+﻿using Dapper;
+using Microsoft.EntityFrameworkCore;
+using System.Data;
+using TournamentBracket.BackEnd.V1.Common.Constants;
 using TournamentBracket.BackEnd.V1.Common.Entity;
 using TournamentBracket.BackEnd.V1.Common.Repository;
 
@@ -14,8 +16,17 @@ public partial class TournamentBracketDbContext : IMatchRepository
     => Matches.Where(m => (m.HomeTeamID == teamID || m.AwayTeamID == teamID) && !m.IsMatchCompleted)
         .FirstOrDefaultAsync();
 
-    public Task<MatchDto> GetMatchWinners(Guid TournamentID, Guid MatchID, Guid TeamID)
+    public async Task<List<Team>> GetMatchWinners(Guid TournamentID, string MatchCategoryName)
     {
-        throw new NotImplementedException();
+        var connection = Database.GetDbConnection();
+
+        var parameters = new DynamicParameters();
+
+        parameters.Add(CommonSPParamNames.TournamentID, TournamentID);
+        parameters.Add(CommonSPParamNames.MatchCategoryName, MatchCategoryName);
+
+        var winners = await connection.QueryAsync<Team>(StoredProcedureNames.GetMatchWinnersData, param: parameters, commandType: CommandType.StoredProcedure);
+
+        return winners.ToList();
     }
 }

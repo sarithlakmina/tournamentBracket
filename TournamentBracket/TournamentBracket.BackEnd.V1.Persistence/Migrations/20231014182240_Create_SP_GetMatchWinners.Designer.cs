@@ -12,8 +12,8 @@ using TournamentBracket.BackEnd.V1.Persistence.EFCustomizations;
 namespace TournamentBracket.BackEnd.V1.Persistence.Migrations
 {
     [DbContext(typeof(TournamentBracketDbContext))]
-    [Migration("20231014143817_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20231014182240_Create_SP_GetMatchWinners")]
+    partial class Create_SP_GetMatchWinners
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -63,7 +63,12 @@ namespace TournamentBracket.BackEnd.V1.Persistence.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
+                    b.Property<Guid>("TournamentID")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("MatchCategoryID");
+
+                    b.HasIndex("TournamentID");
 
                     b.ToTable("MatchCategories");
                 });
@@ -161,9 +166,6 @@ namespace TournamentBracket.BackEnd.V1.Persistence.Migrations
                     b.Property<Guid>("MatchID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("TeamID")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("TournamentID")
                         .HasColumnType("uniqueidentifier");
 
@@ -208,6 +210,17 @@ namespace TournamentBracket.BackEnd.V1.Persistence.Migrations
                 });
 
             modelBuilder.Entity("TournamentBracket.BackEnd.V1.Common.Entity.Match", b =>
+                {
+                    b.HasOne("TournamentBracket.BackEnd.V1.Common.Entity.Tournament", "Tournament")
+                        .WithMany()
+                        .HasForeignKey("TournamentID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Tournament");
+                });
+
+            modelBuilder.Entity("TournamentBracket.BackEnd.V1.Common.Entity.MatchCategory", b =>
                 {
                     b.HasOne("TournamentBracket.BackEnd.V1.Common.Entity.Tournament", "Tournament")
                         .WithMany()

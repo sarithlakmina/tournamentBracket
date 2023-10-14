@@ -137,6 +137,8 @@ namespace TournamentBracket.BackEnd.V1.Business.Actions.Matches
             if (request.TeamsSeedDetails.Count != 8)
                 throw new ArgumentException(ExceptionMessages.NumberOfTeamsIncorrectException);
 
+            var winners = matchRepository.GetMatchWinners(request.TournamentID, MatchCategoryType.RoundOf16);
+
 
             var quarterFinalMatches = new List<Match>();
 

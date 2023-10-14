@@ -12,8 +12,8 @@ using TournamentBracket.BackEnd.V1.Persistence.EFCustomizations;
 namespace TournamentBracket.BackEnd.V1.Persistence.Migrations
 {
     [DbContext(typeof(TournamentBracketDbContext))]
-    [Migration("20231014164156_Update_TournamentMatchMap_RemoveTeamID")]
-    partial class Update_TournamentMatchMap_RemoveTeamID
+    [Migration("20231014182147_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
