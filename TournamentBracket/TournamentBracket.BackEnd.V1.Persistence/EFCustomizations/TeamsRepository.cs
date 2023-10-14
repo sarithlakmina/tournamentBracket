@@ -15,5 +15,6 @@ public partial class TournamentBracketDbContext : ITeamRepository
         {
             Name = td.Name,
             TeamID = td.TeamID,
+            Seed = td.Seed,
         }).FirstOrDefaultAsync();
 }

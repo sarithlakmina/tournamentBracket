@@ -122,6 +122,8 @@ namespace TournamentBracket.BackEnd.V1.Business.Actions.Matches
 
             #endregion
 
+            await CreateQuaterFinalFixtures(request);
+
         }
         private async Task CreateGroupStageMatchFixtures(Dictionary<Guid, string> SeedDetails)
         {
@@ -134,10 +136,15 @@ namespace TournamentBracket.BackEnd.V1.Business.Actions.Matches
 
         private async Task CreateQuaterFinalFixtures(CreateMatchFixturesCommand request)
         {
-            if (request.TeamsSeedDetails.Count != 8)
+
+
+            request.TournamentID = Guid.Parse("1DBA19A1-A8A8-4E33-BEBD-215CDC9CA1F8");
+
+            var winners = await matchRepository.GetMatchWinners(request.TournamentID, MatchCategoryType.RoundOf16);
+
+            if (winners.Count != 8)
                 throw new ArgumentException(ExceptionMessages.NumberOfTeamsIncorrectException);
 
-            var winners = matchRepository.GetMatchWinners(request.TournamentID, MatchCategoryType.RoundOf16);
 
 
             var quarterFinalMatches = new List<Match>();
@@ -148,9 +155,11 @@ namespace TournamentBracket.BackEnd.V1.Business.Actions.Matches
                 {
                     TournamentID = request.TournamentID,
                     MatchID = Guid.NewGuid(),
-                    //HomeTeamID = roundOf16Matches[2 * k].WinnerTeamID, // Assuming you have a WinnerTeamID property in your Match class
-                    //AwayTeamID = roundOf16Matches[2 * k + 1].WinnerTeamID
+                    HomeTeamID = winners[2 * k].TeamID, // Assuming you have a WinnerTeamID property in your Match class
+                    AwayTeamID = winners[2 * k + 1].TeamID
                 };
+                var c = winners[2 * k].Seed;
+                var d = winners[2 * k + 1].Seed;
                 quarterFinalMatches.Add(match);
             }
 

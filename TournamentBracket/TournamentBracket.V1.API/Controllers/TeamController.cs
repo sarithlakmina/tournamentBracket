@@ -1,8 +1,10 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TournamentBracket.BackEnd.V1.API.Controllers.Definitions;
+using TournamentBracket.BackEnd.V1.Business.Actions.Teams;
 using TournamentBracket.BackEnd.V1.Business.Actions.Tournaments;
 using TournamentBracket.BackEnd.V1.Common.Common;
+using TournamentBracket.BackEnd.V1.Common.Model;
 
 namespace TournamentBracket.BackEnd.V1.API.Controllers;
 
@@ -30,8 +32,13 @@ public class TeamController : BaseController
 
     [HttpPut]
     [Route("/advance")]
-    public async Task<ActionResult> AdvanceTeam([FromBody] string team)  //prefer ID here 
+    public async Task<ActionResult> AdvanceTeam([FromBody] AdvanceTeamRequestModel advanceTeamRequest)
     {
-        return Ok(team);
+        await mediator.Send(new AdvanceTeamCommand
+        {
+            AdvanceTeamRequest = advanceTeamRequest
+
+        });
+        return Ok(advanceTeamRequest);
     }
 }
