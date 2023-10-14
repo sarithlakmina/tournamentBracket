@@ -13,5 +13,10 @@ public class MatchCategoryEntityDescriptor : IEntityTypeConfiguration<MatchCateg
         builder.Property(m => m.MatchTypeName)
             .IsRequired(true)
             .HasMaxLength(250);
+
+        builder.HasOne(m => m.Tournament)
+                .WithMany()
+                .HasForeignKey(m => m.TournamentID)
+                .IsRequired(true);
     }
 }

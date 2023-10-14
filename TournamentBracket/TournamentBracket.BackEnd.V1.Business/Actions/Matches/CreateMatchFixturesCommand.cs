@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using TournamentBracket.BackEnd.V1.Business.Actions.Definitions;
+using TournamentBracket.BackEnd.V1.Common.Constants;
 using TournamentBracket.BackEnd.V1.Common.Database;
 using TournamentBracket.BackEnd.V1.Common.Entity;
 
@@ -24,11 +25,11 @@ namespace TournamentBracket.BackEnd.V1.Business.Actions.Matches
 
         public async Task<CreateMatchFixturesCommandResult> Handle(CreateMatchFixturesCommand request, CancellationToken cancellationToken)
         {
-            if (request.MatchType == "R16")
+            if (request.MatchType == MatchCategoryType.RoundOf16)
                 await CreateR16MatchFixtures(request);
-            if (request.MatchType == "R32")
-                await CreateR32MatchFixtures(request.TeamsSeedDetails);
-            if (request.MatchType == "R64")
+            if (request.MatchType == MatchCategoryType.GroupStage)
+                await CreateGroupStageMatchFixtures(request.TeamsSeedDetails);
+            if (request.MatchType == MatchCategoryType.RoundOf64)
                 await CreateR64MatchFixtures(request.TeamsSeedDetails);
 
             return new CreateMatchFixturesCommandResult { IsSuccess = true };
@@ -37,7 +38,7 @@ namespace TournamentBracket.BackEnd.V1.Business.Actions.Matches
         {
 
             if (request.TeamsSeedDetails.Count != 16)
-                throw new ArgumentException("The number of teams must be 16.");
+                throw new ArgumentException(ExceptionMessages.NumberOfTeamsIncorrectException);
 
 
             var seededTeams = request.TeamsSeedDetails.OrderByDescending(SeedDetails => SeedDetails.Value).ToList();
@@ -47,10 +48,28 @@ namespace TournamentBracket.BackEnd.V1.Business.Actions.Matches
 
 
             var roundOf16Matches = new List<Match>();
+            var roundOf16MatchMatchCategoryMaps = new List<MatchMatchCategoryMap>();
+            var tournamentMatchMaps = new List<TournamentMatchMap>();
 
+            #region Add Match Category
+
+            var matchcategoryID = Guid.NewGuid();
+            var matchCategory = new Common.Entity.MatchCategory
+            {
+                MatchCategoryID = matchcategoryID,
+                MatchTypeName = MatchCategoryType.RoundOf16,
+                TournamentID = request.TournamentID,
+            };
+
+            matchCategoryRepository.MatchCategories.Add(matchCategory);
+            #endregion
+
+            #region Add Matches and Match Match Category Maps
             for (int j = 7; j >= 0; j--)
             {
+                #region Add Matches
                 var match = new Match();
+
                 if (j % 2 == 1)
                 {
                     match.TournamentID = request.TournamentID;
@@ -67,12 +86,44 @@ namespace TournamentBracket.BackEnd.V1.Business.Actions.Matches
                     match.AwayTeamID = groupStageRunnerUpTeams[j + 1].Key;
                 }
                 roundOf16Matches.Add(match);
+                #endregion
+
+                #region Add Match Match Category Maps
+                var matchMatchCategoryMap = new MatchMatchCategoryMap
+                {
+                    MatchMatchCategoryMapID = Guid.NewGuid(),
+                    MatchCategoryID = matchcategoryID,
+                    MatchID = match.MatchID,
+                    TournamentID = request.TournamentID,
+                    IsMatchCompleted = false
+                };
+
+                roundOf16MatchMatchCategoryMaps.Add(matchMatchCategoryMap);
+
+                #endregion
+
+                #region Add Tournament Match  Maps
+                var tournamentMatchMap = new TournamentMatchMap
+                {
+                    TournamentMatchMapID = Guid.NewGuid(),
+                    MatchID = match.MatchID,
+                    CreatedAt = DateTimeOffset.Now,
+                    IsMatchCompleted = false,
+                    TournamentID = request.TournamentID,
+                };
+
+                tournamentMatchMaps.Add(tournamentMatchMap);
+                #endregion
             }
 
             matchRepository.Matches.AddRange(roundOf16Matches);
+            MatchMatchCategoryMapRepository.MatchMatchCategoryMaps.AddRange(roundOf16MatchMatchCategoryMaps);
+            tournamentMatchMapRepository.TournamentMatchMaps.AddRange(tournamentMatchMaps);
+
+            #endregion
 
         }
-        private async Task CreateR32MatchFixtures(Dictionary<Guid, string> SeedDetails)
+        private async Task CreateGroupStageMatchFixtures(Dictionary<Guid, string> SeedDetails)
         {
             return;
         }
@@ -81,9 +132,27 @@ namespace TournamentBracket.BackEnd.V1.Business.Actions.Matches
             return;
         }
 
-        private async Task CreateTeamMatchMaps(CreateMatchFixturesCommand request)
+        private async Task CreateQuaterFinalFixtures(CreateMatchFixturesCommand request)
         {
+            if (request.TeamsSeedDetails.Count != 8)
+                throw new ArgumentException(ExceptionMessages.NumberOfTeamsIncorrectException);
 
+
+            var quarterFinalMatches = new List<Match>();
+
+            for (int k = 0; k < 4; k++)
+            {
+                var match = new Match
+                {
+                    TournamentID = request.TournamentID,
+                    MatchID = Guid.NewGuid(),
+                    //HomeTeamID = roundOf16Matches[2 * k].WinnerTeamID, // Assuming you have a WinnerTeamID property in your Match class
+                    //AwayTeamID = roundOf16Matches[2 * k + 1].WinnerTeamID
+                };
+                quarterFinalMatches.Add(match);
+            }
+
+            matchRepository.Matches.AddRange(quarterFinalMatches);
         }
     }
 

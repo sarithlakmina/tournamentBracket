@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using TournamentBracket.BackEnd.V1.Business.Actions.Definitions;
 using TournamentBracket.BackEnd.V1.Business.Actions.Matches;
-using TournamentBracket.BackEnd.V1.Business.Actions.MatchType;
 using TournamentBracket.BackEnd.V1.Common.Common;
 using TournamentBracket.BackEnd.V1.Common.Database;
 using TournamentBracket.BackEnd.V1.Common.Entity;
@@ -11,7 +10,6 @@ namespace TournamentBracket.BackEnd.V1.Business.Actions.Tournaments;
 public class CreateTeamsCommand : IRequest<CreateTeamsCommandResult>
 {
     public Dictionary<string, List<SeedDetails>> SeedDetails { get; set; }
-
 }
 
 public class CreateTeamsCommandResult
@@ -42,13 +40,11 @@ public class CreateTeamsCommandHandler : BackEndGenericHandler, IRequestHandler<
         var typeOfMatch = request.SeedDetails.Keys.FirstOrDefault();
         var seedDetailsList = request.SeedDetails[typeOfMatch];
 
-        // add a condition to check count if count not correct throw an error
-
         #region Create Tournament
         var tournament = new Tournament
         {
             TournamentID = tournamentID,
-            TournamentName = "FIFA 2022",
+            TournamentName = "FIFA 2022",  // hardcoded for now.
         };
 
         tournamentRepository.Tournaments.Add(tournament);
@@ -92,12 +88,7 @@ public class CreateTeamsCommandHandler : BackEndGenericHandler, IRequestHandler<
 
         tournamentTeamMapRepository.TournamentTeamMaps.AddRange(tournamentTeamMaps);
 
-        var createMatchCategoryStatus = await mediator.Send(new CreateMatchCategoryCommand
-        {
-            MatchCategoryName = typeOfMatch,
-        }, cancellationToken);
-
-        isSuccess = createMatchCategoryStatus.IsSuccess;
+        #region Create Match Fixtures
 
         var createMatchFixtures = await mediator.Send(new CreateMatchFixturesCommand
         {
@@ -107,6 +98,7 @@ public class CreateTeamsCommandHandler : BackEndGenericHandler, IRequestHandler<
         }, cancellationToken);
 
         isSuccess = createMatchFixtures.IsSuccess;
+        #endregion        
 
         if (isSuccess)
             await unitOfWork.SaveChangesAsync();
