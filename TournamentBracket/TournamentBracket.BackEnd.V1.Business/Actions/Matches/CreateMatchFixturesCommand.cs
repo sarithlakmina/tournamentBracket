@@ -40,7 +40,6 @@ namespace TournamentBracket.BackEnd.V1.Business.Actions.Matches
             if (request.TeamsSeedDetails.Count != 16)
                 throw new ArgumentException(ExceptionMessages.NumberOfTeamsIncorrectException);
 
-
             var seededTeams = request.TeamsSeedDetails.OrderByDescending(SeedDetails => SeedDetails.Value).ToList();
 
             var groupStageRunnerUpTeams = seededTeams.Take(8).ToList();
@@ -54,7 +53,7 @@ namespace TournamentBracket.BackEnd.V1.Business.Actions.Matches
             #region Add Match Category
 
             var matchcategoryID = Guid.NewGuid();
-            var matchCategory = new Common.Entity.MatchCategory
+            var matchCategory = new MatchCategory
             {
                 MatchCategoryID = matchcategoryID,
                 MatchTypeName = MatchCategoryType.RoundOf16,
@@ -108,7 +107,6 @@ namespace TournamentBracket.BackEnd.V1.Business.Actions.Matches
                     TournamentMatchMapID = Guid.NewGuid(),
                     MatchID = match.MatchID,
                     CreatedAt = DateTimeOffset.Now,
-                    IsMatchCompleted = false,
                     TournamentID = request.TournamentID,
                 };
 
@@ -120,9 +118,7 @@ namespace TournamentBracket.BackEnd.V1.Business.Actions.Matches
             MatchMatchCategoryMapRepository.MatchMatchCategoryMaps.AddRange(roundOf16MatchMatchCategoryMaps);
             tournamentMatchMapRepository.TournamentMatchMaps.AddRange(tournamentMatchMaps);
 
-            #endregion
-
-            await CreateQuaterFinalFixtures(request);
+            #endregion            
 
         }
         private async Task CreateGroupStageMatchFixtures(Dictionary<Guid, string> SeedDetails)
@@ -132,38 +128,6 @@ namespace TournamentBracket.BackEnd.V1.Business.Actions.Matches
         private async Task CreateR64MatchFixtures(Dictionary<Guid, string> SeedDetails)
         {
             return;
-        }
-
-        private async Task CreateQuaterFinalFixtures(CreateMatchFixturesCommand request)
-        {
-
-
-            request.TournamentID = Guid.Parse("1DBA19A1-A8A8-4E33-BEBD-215CDC9CA1F8");
-
-            var winners = await matchRepository.GetMatchWinners(request.TournamentID, MatchCategoryType.RoundOf16);
-
-            if (winners.Count != 8)
-                throw new ArgumentException(ExceptionMessages.NumberOfTeamsIncorrectException);
-
-
-
-            var quarterFinalMatches = new List<Match>();
-
-            for (int k = 0; k < 4; k++)
-            {
-                var match = new Match
-                {
-                    TournamentID = request.TournamentID,
-                    MatchID = Guid.NewGuid(),
-                    HomeTeamID = winners[2 * k].TeamID, // Assuming you have a WinnerTeamID property in your Match class
-                    AwayTeamID = winners[2 * k + 1].TeamID
-                };
-                var c = winners[2 * k].Seed;
-                var d = winners[2 * k + 1].Seed;
-                quarterFinalMatches.Add(match);
-            }
-
-            matchRepository.Matches.AddRange(quarterFinalMatches);
         }
     }
 

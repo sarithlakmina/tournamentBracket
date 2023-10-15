@@ -6,8 +6,6 @@ public class TournamentMatchMap
     public Guid TournamentID { get; set; }
     public Guid MatchID { get; set; }
     public DateTimeOffset CreatedAt { get; set; }
-    public bool IsMatchCompleted { get; set; }
-
     public virtual Tournament Tournament { get; set; }
     public virtual Match Match { get; set; }
 }
