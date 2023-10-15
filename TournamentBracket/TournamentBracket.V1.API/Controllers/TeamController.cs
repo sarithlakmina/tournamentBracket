@@ -8,7 +8,6 @@ using TournamentBracket.BackEnd.V1.Common.Model;
 
 namespace TournamentBracket.BackEnd.V1.API.Controllers;
 
-
 public class TeamController : BaseController
 {
     private readonly IMediator mediator;
@@ -19,7 +18,7 @@ public class TeamController : BaseController
     }
 
     [HttpPut]
-    [Route("/seed")]
+    [Route("seed")]
     public async Task<ActionResult> SeedTeam([FromBody] Dictionary<string, List<SeedDetails>> createSeedRequest)
     {
         await mediator.Send(new CreateTeamsCommand
@@ -31,7 +30,7 @@ public class TeamController : BaseController
     }
 
     [HttpPut]
-    [Route("/advance")]
+    [Route("advance")]
     public async Task<ActionResult> AdvanceTeam([FromBody] AdvanceTeamRequestModel advanceTeamRequest)
     {
         await mediator.Send(new AdvanceTeamCommand
