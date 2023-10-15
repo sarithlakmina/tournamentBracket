@@ -3,4 +3,5 @@
 public static class StoredProcedureNames
 {
     public const string GetMatchWinnersData = "GetMatchWinnersData";
+    public const string GetTournamentWinner = "GetTournamentWinners";
 }

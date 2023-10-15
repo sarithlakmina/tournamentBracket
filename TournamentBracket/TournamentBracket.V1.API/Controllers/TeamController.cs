@@ -8,7 +8,7 @@ using TournamentBracket.BackEnd.V1.Common.Model;
 
 namespace TournamentBracket.BackEnd.V1.API.Controllers;
 
-[ApiController]
+
 public class TeamController : BaseController
 {
     private readonly IMediator mediator;
