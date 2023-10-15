@@ -16,9 +16,7 @@ public class CreateFinalMatchFixtureResult
 
 public class CreateFinalMatchFixtureHandler : BackEndGenericHandler, IRequestHandler<CreateFinalMatchFixtureCommand, CreateFinalMatchFixtureResult>
 {
-    public CreateFinalMatchFixtureHandler(ITournamentBracketDbContext dbContext) : base(dbContext)
-    {
-    }
+    public CreateFinalMatchFixtureHandler(ITournamentBracketDbContext dbContext) : base(dbContext) { }
 
     public async Task<CreateFinalMatchFixtureResult> Handle(CreateFinalMatchFixtureCommand request, CancellationToken cancellationToken)
     {

@@ -15,7 +15,7 @@ public class TournamentController : BaseController
     }
 
     [HttpGet]
-    [Route("/winner")]
+    [Route("winner")]
     public async Task<ActionResult> Winner([FromQuery] Guid TournamentID)
     {
         var tournamentWinner = await mediator.Send(new GetTournamentWinnerQuery
@@ -27,7 +27,7 @@ public class TournamentController : BaseController
     }
 
     [HttpGet]
-    [Route("/pathtovictory")]
+    [Route("pathtovictory")]
     public async Task<ActionResult> PathToVictory([FromQuery] Guid TournamentID)
     {
         var tournamentWinner = await mediator.Send(new GetTournamentWinnerQuery

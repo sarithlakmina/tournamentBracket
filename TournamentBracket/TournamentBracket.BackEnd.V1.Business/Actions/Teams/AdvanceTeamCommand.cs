@@ -14,7 +14,9 @@ namespace TournamentBracket.BackEnd.V1.Business.Actions.Teams
     }
 
     public class AdvanceTeamCommandResult
-    { }
+    {
+        public string WinnerName { get; set; }
+    }
 
     public class AdvanceTeamCommandHandler : BackEndGenericHandler, IRequestHandler<AdvanceTeamCommand, AdvanceTeamCommandResult>
     {
@@ -148,9 +150,37 @@ namespace TournamentBracket.BackEnd.V1.Business.Actions.Teams
 
             #endregion
 
+            #region Initiate win for Finals                     
+
+            var finalWinner = request.AdvanceTeamRequest.Winner;
+
+            var tournamentWinnerID = teams.Where(team => team.Name == finalWinner).Select(team => team.TeamID).FirstOrDefault();
+
+            foreach (var team in semiFinalsWinningTeamsTeamIDs)
+            {
+                semiFinalsWinningTeamsSeedList.Add(teamIDSeedMap[team]);
+            }
+
+            var finalMatch = await matchRepository.GetCurrentMatchByTeam(tournamentWinnerID) ?? throw new Exception(ExceptionMessages.MatchNotFoundException);
+
+            finalMatch.IsMatchCompleted = true;
+            finalMatch.WinningTeamID = tournamentWinnerID;
+
+            var secondPlace = finalMatch.WinningTeamID == finalMatch.HomeTeamID ? finalMatch.AwayTeamID : finalMatch.HomeTeamID;
+
+            var tournament = await tournamentRepository.GetTournament(tournamentID);
+
+            tournament.Winner = tournamentWinnerID;
+            tournament.SecondPlace = secondPlace;
+
+            #endregion
+
             await unitOfWork.SaveChangesAsync();
 
-            return new AdvanceTeamCommandResult();
+            return new AdvanceTeamCommandResult
+            {
+                WinnerName = finalWinner,
+            };
         }
 
 

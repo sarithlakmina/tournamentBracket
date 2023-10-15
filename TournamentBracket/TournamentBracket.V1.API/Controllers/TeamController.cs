@@ -33,11 +33,11 @@ public class TeamController : BaseController
     [Route("advance")]
     public async Task<ActionResult> AdvanceTeam([FromBody] AdvanceTeamRequestModel advanceTeamRequest)
     {
-        await mediator.Send(new AdvanceTeamCommand
+        var response = await mediator.Send(new AdvanceTeamCommand
         {
             AdvanceTeamRequest = advanceTeamRequest
 
         });
-        return Ok(advanceTeamRequest);
+        return Ok(response.WinnerName);
     }
 }
