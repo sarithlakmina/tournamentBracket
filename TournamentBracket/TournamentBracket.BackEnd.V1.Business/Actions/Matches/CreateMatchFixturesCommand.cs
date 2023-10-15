@@ -56,7 +56,7 @@ namespace TournamentBracket.BackEnd.V1.Business.Actions.Matches
             var matchCategory = new MatchCategory
             {
                 MatchCategoryID = matchcategoryID,
-                MatchTypeName = MatchCategoryType.RoundOf16,
+                Name = MatchCategoryType.RoundOf16,
                 TournamentID = request.TournamentID,
             };
 

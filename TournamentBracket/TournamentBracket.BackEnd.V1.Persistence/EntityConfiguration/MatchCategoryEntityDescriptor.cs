@@ -10,7 +10,7 @@ public class MatchCategoryEntityDescriptor : IEntityTypeConfiguration<MatchCateg
     {
         builder.HasKey(m => m.MatchCategoryID);
 
-        builder.Property(m => m.MatchTypeName)
+        builder.Property(m => m.Name)
             .IsRequired(true)
             .HasMaxLength(250);
 

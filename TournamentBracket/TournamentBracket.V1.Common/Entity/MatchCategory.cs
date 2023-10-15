@@ -3,7 +3,7 @@
 public class MatchCategory
 {
     public Guid MatchCategoryID { get; set; }
-    public string MatchTypeName { get; set; }
+    public string Name { get; set; }
     public Guid TournamentID { get; set; }
 
     public virtual ICollection<MatchMatchCategoryMap> MatchMatchCategoryMaps { get; protected set; }

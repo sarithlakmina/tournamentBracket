@@ -103,7 +103,7 @@ namespace TournamentBracket.BackEnd.V1.Business.Actions.Teams
             var matchCategory = new MatchCategory
             {
                 MatchCategoryID = matchcategoryID,
-                MatchTypeName = MatchCategoryType.QuaterFinals,
+                Name = MatchCategoryType.QuaterFinals,
                 TournamentID = tournamentID,
             };
 

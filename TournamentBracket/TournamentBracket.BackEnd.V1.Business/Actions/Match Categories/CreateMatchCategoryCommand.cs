@@ -31,7 +31,7 @@ namespace TournamentBracket.BackEnd.V1.Business.Actions.MatchCategories
                 var matchcategory = new MatchCategory
                 {
                     MatchCategoryID = Guid.NewGuid(),
-                    MatchTypeName = request.MatchCategoryName,
+                    Name = request.MatchCategoryName,
                     TournamentID = request.TournamentID
                 };
 
