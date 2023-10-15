@@ -6,6 +6,9 @@ namespace TournamentBracket.BackEnd.V1.Persistence.EFCustomizations;
 
 public partial class TournamentBracketDbContext : IMatchMatchCategoryMapRepository
 {
-    public Task<List<MatchMatchCategoryMap>> GetMatchMatchTypeMap(Guid TournamentID, Guid MatchID)
-    => MatchMatchCategoryMaps.Where(mmtm => mmtm.TournamentID == TournamentID).ToListAsync();
+    public Task<List<MatchMatchCategoryMap>> GetMatchMatchCategoryMap(Guid TournamentID, Guid MatchID)
+    => MatchMatchCategoryMaps.Where(mmtm => mmtm.TournamentID == TournamentID && mmtm.MatchID == MatchID).ToListAsync();
+
+    public Task<List<MatchMatchCategoryMap>> GetMatchMatchCategoryMapByCategory(Guid TournamentID, Guid MatchCategoryID)
+        => MatchMatchCategoryMaps.Where(mmtm => mmtm.TournamentID == TournamentID && mmtm.MatchCategoryID == MatchCategoryID).ToListAsync();
 }

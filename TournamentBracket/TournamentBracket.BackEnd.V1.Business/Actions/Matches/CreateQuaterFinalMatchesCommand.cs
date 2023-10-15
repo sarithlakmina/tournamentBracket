@@ -166,7 +166,7 @@ public class CreateQuaterFinalMatchesCommandHandler : BackEndGenericHandler, IRe
         }
 
         matchRepository.Matches.AddRange(quaterFinalMatches);
-        MatchMatchCategoryMapRepository.MatchMatchCategoryMaps.AddRange(quaterFinalMatchMatchCategoryMaps);
+        matchMatchCategoryMapRepository.MatchMatchCategoryMaps.AddRange(quaterFinalMatchMatchCategoryMaps);
         tournamentMatchMapRepository.TournamentMatchMaps.AddRange(tournamentMatchMaps);
 
         await unitOfWork.SaveChangesAsync();

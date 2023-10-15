@@ -139,10 +139,16 @@ namespace TournamentBracket.BackEnd.V1.Business.Actions.Teams
 
             #endregion
 
+            #region Create Final fixture and Match
+
+            await mediator.Send(new CreateFinalMatchFixtureCommand
+            {
+                TournamentID = tournamentID,
+            });
+
+            #endregion
 
             await unitOfWork.SaveChangesAsync();
-
-
 
             return new AdvanceTeamCommandResult();
         }

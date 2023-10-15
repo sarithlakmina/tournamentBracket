@@ -15,7 +15,7 @@ public class BackEndGenericHandler
     protected ITournamentTeamMapRepository tournamentTeamMapRepository;
     protected ITournamentMatchMapRepository tournamentMatchMapRepository;
     protected IMatchCategoryRepository matchCategoryRepository;
-    protected IMatchMatchCategoryMapRepository MatchMatchCategoryMapRepository;
+    protected IMatchMatchCategoryMapRepository matchMatchCategoryMapRepository;
 
 
     public BackEndGenericHandler(ITournamentBracketDbContext dbContext)
@@ -30,6 +30,6 @@ public class BackEndGenericHandler
         tournamentTeamMapRepository = dbContext;
         tournamentMatchMapRepository = dbContext;
         matchCategoryRepository = dbContext;
-        MatchMatchCategoryMapRepository = dbContext;
+        matchMatchCategoryMapRepository = dbContext;
     }
 }

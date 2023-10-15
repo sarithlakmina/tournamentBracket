@@ -10,6 +10,7 @@ public interface IMatchRepository : IUnitOfWork
     public DbSet<Match> Matches { get; set; }
     public Task<List<Match>> GetAllMatches();
     public Task<List<Match>> GetAllMatches(List<Guid> TeamIDs);
+    public Task<List<Match>> GetAllMatchesByMatchIDs(List<Guid> MatchIDs);
     public Task<Match> GetCurrentMatchByTeam(Guid teamID);
     public Task<List<WinnerDto>> GetMatchWinners(Guid TournamentID, string MatchCategoryName);
 }

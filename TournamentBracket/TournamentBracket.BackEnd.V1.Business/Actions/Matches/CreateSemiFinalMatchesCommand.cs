@@ -133,7 +133,7 @@ namespace TournamentBracket.BackEnd.V1.Business.Actions.Matches
             #endregion
 
             matchRepository.Matches.AddRange(matchList);
-            MatchMatchCategoryMapRepository.MatchMatchCategoryMaps.AddRange(quaterFinalMatchMatchCategoryMaps);
+            matchMatchCategoryMapRepository.MatchMatchCategoryMaps.AddRange(quaterFinalMatchMatchCategoryMaps);
             tournamentMatchMapRepository.TournamentMatchMaps.AddRange(tournamentMatchMaps);
 
             await unitOfWork.SaveChangesAsync();

@@ -8,5 +8,6 @@ public interface IMatchMatchCategoryMapRepository : IUnitOfWork
 {
     DbSet<MatchMatchCategoryMap> MatchMatchCategoryMaps { get; set; }
 
-    Task<List<MatchMatchCategoryMap>> GetMatchMatchTypeMap(Guid TournamentID, Guid MatchID);
+    Task<List<MatchMatchCategoryMap>> GetMatchMatchCategoryMap(Guid TournamentID, Guid MatchID);
+    Task<List<MatchMatchCategoryMap>> GetMatchMatchCategoryMapByCategory(Guid TournamentID, Guid MatchCategoryID);
 }

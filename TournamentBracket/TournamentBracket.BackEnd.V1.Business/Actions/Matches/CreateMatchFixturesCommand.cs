@@ -115,7 +115,7 @@ namespace TournamentBracket.BackEnd.V1.Business.Actions.Matches
             }
 
             matchRepository.Matches.AddRange(roundOf16Matches);
-            MatchMatchCategoryMapRepository.MatchMatchCategoryMaps.AddRange(roundOf16MatchMatchCategoryMaps);
+            matchMatchCategoryMapRepository.MatchMatchCategoryMaps.AddRange(roundOf16MatchMatchCategoryMaps);
             tournamentMatchMapRepository.TournamentMatchMaps.AddRange(tournamentMatchMaps);
 
             #endregion            

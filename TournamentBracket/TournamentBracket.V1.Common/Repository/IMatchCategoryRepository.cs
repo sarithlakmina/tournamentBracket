@@ -8,4 +8,5 @@ public interface IMatchCategoryRepository : IUnitOfWork
 {
     public DbSet<MatchCategory> MatchCategories { get; set; }
     public Task<List<MatchCategory>> GetAllMatchCategories();
+    public Task<List<MatchCategory>> GetMatchCategory(Guid TournamentID, string Name);
 }
