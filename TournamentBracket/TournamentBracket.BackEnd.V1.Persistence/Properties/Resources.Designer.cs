@@ -86,5 +86,34 @@ namespace TournamentBracket.BackEnd.V1.Persistence.Properties {
                 return ResourceManager.GetString("SPCreate_GetMatchWinningTeams_Up", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IF EXISTS ( SELECT * FROM sysobjects WHERE  id = object_id(N&apos;[dbo].[GetPathToVictory]&apos;) and OBJECTPROPERTY(id, N&apos;IsProcedure&apos;) = 1 )
+        ///BEGIN
+        ///	DROP PROCEDURE [dbo].GetPathToVictory
+        ///END
+        ///GO
+        ///
+        ///CREATE PROCEDURE [dbo].[GetPathToVictory]
+        ///(
+        ///	@TournamentID uniqueidentifier,
+        ///	@VictoryTeamID uniqueidentifier
+        ///)
+        ///AS
+        ///BEGIN
+        ///	SET NOCOUNT ON;
+        ///	
+        ///	CREATE TABLE #OpponentTeams (TeamName varchar(50), MatchCategoryName nvarchar(10));
+        ///
+        ///
+        ///	INSERT INTO #OpponentTeams (TeamName, MatchCategoryName)
+        ///    SELECT
+        ///        CA [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string SPCreate_GetPathToVictory_Up {
+            get {
+                return ResourceManager.GetString("SPCreate_GetPathToVictory_Up", resourceCulture);
+            }
+        }
     }
 }

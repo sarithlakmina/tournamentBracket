@@ -11,5 +11,5 @@ public partial class TournamentBracketDbContext : IMatchCategoryRepository
 
     public Task<List<MatchCategory>> GetMatchCategory(Guid TournamentID, string Name)
      => MatchCategories
-                .Where(mc => mc.Name == "SF" && mc.TournamentID == TournamentID).ToListAsync();
+                .Where(mc => mc.Name == Name && mc.TournamentID == TournamentID).ToListAsync();
 }

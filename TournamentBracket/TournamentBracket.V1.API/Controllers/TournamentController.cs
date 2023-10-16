@@ -30,11 +30,10 @@ public class TournamentController : BaseController
     [Route("pathtovictory")]
     public async Task<ActionResult> PathToVictory([FromQuery] Guid TournamentID)
     {
-        var tournamentWinner = await mediator.Send(new GetTournamentWinnerQuery
+        var result = await mediator.Send(new GetPathToVictoryQuery
         {
             TournamentID = TournamentID
-
         });
-        return Ok(tournamentWinner.WinnerName);
+        return Ok(result.PathToVictoryDto);
     }
 }
