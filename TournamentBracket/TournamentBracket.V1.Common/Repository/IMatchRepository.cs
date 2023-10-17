@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TournamentBracket.BackEnd.V1.Common.Database;
-using TournamentBracket.BackEnd.V1.Common.DTO;
 using TournamentBracket.BackEnd.V1.Common.Entity;
 
 namespace TournamentBracket.BackEnd.V1.Common.Repository;
@@ -12,5 +11,4 @@ public interface IMatchRepository : IUnitOfWork
     public Task<List<Match>> GetAllMatches(List<Guid> TeamIDs);
     public Task<List<Match>> GetAllMatchesByMatchIDs(List<Guid> MatchIDs);
     public Task<Match> GetCurrentMatchByTeam(Guid teamID);
-    public Task<List<WinnerDto>> GetMatchWinners(Guid TournamentID, string MatchCategoryName);
 }

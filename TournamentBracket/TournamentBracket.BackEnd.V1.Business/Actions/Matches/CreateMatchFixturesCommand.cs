@@ -27,8 +27,10 @@ namespace TournamentBracket.BackEnd.V1.Business.Actions.Matches
         {
             if (request.MatchType == MatchCategoryType.RoundOf16)
                 await CreateR16MatchFixtures(request);
+
             if (request.MatchType == MatchCategoryType.GroupStage)
                 await CreateGroupStageMatchFixtures(request.TeamsSeedDetails);
+
             if (request.MatchType == MatchCategoryType.RoundOf64)
                 await CreateR64MatchFixtures(request.TeamsSeedDetails);
 
@@ -123,10 +125,27 @@ namespace TournamentBracket.BackEnd.V1.Business.Actions.Matches
         }
         private async Task CreateGroupStageMatchFixtures(Dictionary<Guid, string> SeedDetails)
         {
+            // Pair of teams will play matches and winners will go to the next match
+            // After found out 16 players this round will be completed. 
+            // loosers are elemenated 
+
+            // then call CreateR16MatchFixtures method 
+
+
+            //call CreateGroupStageMatchFixtures method with above result
             return;
         }
         private async Task CreateR64MatchFixtures(Dictionary<Guid, string> SeedDetails)
         {
+
+            // Pair of teams will play matches and winners will go to the next match
+            // After found out 32 players this round will be completed. 
+            // loosers are elemenated 
+            //Higher seeds are played against lower seed teams
+
+            //call CreateGroupStageMatchFixtures method with above result
+
+
             return;
         }
     }

@@ -13,7 +13,7 @@ public class CreateTournamentCommandHandlerTest : IClassFixture<TestFixture>
 
     private readonly Mock<ITournamentBracketDbContext> mockDbContext;
 
-    public CreateTournamentCommandHandlerTest()
+    public CreateTournamentCommandHandlerTest(TestFixture testFixture)
     {
         mockDbContext = new Mock<ITournamentBracketDbContext>();
     }

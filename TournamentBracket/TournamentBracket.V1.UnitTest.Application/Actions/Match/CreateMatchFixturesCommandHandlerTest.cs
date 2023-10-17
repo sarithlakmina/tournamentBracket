@@ -86,4 +86,5 @@ public class CreateMatchFixturesCommandHandlerTest : IClassFixture<TestFixture>
 
         Assert.True(result.IsSuccess);
     }
+
 }
