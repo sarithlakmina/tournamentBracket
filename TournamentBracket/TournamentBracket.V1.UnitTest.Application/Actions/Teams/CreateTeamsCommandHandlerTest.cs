@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Moq;
 using TournamentBracket.BackEnd.V1.Business.Actions.Matches;
 using TournamentBracket.BackEnd.V1.Business.Actions.Tournaments;
+using TournamentBracket.BackEnd.V1.Common.Common;
+using TournamentBracket.BackEnd.V1.Common.Constants;
 using TournamentBracket.BackEnd.V1.Common.Database;
 using TournamentBracket.BackEnd.V1.Common.DTO;
 using TournamentBracket.BackEnd.V1.Common.Entity;
@@ -26,6 +28,29 @@ public class CreateTeamsCommandHandlerTest : IClassFixture<TestFixture>
         MockTournamentID = testFixture.TournamentTestID;
     }
 
+
+    [Fact]
+    public async Task CreateTeam_CategoryNotFound_Error_Test()
+    {
+        //Arrange
+
+        var requestData = new Dictionary<string, List<SeedDetails>>();
+
+        var command = new CreateTeamsCommand
+        {
+            SeedDetails = requestData
+        };
+
+        var handler = new CreateTeamsCommandHandler(mediator, mockDbContext.Object);
+
+
+        //Act
+
+        var exception = await Assert.ThrowsAsync<Exception>(async () => await handler.Handle(command, CancellationToken.None));
+
+        // Assert
+        Assert.Contains(ExceptionMessages.MatchCategoryNotFound, exception.Message);
+    }
     [Fact]
     public async Task CreateTeams_SuccessTest()
     {
@@ -46,10 +71,11 @@ public class CreateTeamsCommandHandlerTest : IClassFixture<TestFixture>
         mockDbContext.Setup(x => x.Teams).Returns(new Mock<DbSet<Team>>().Object);
         mockDbContext.Setup(x => x.TournamentTeamMaps).Returns(new Mock<DbSet<TournamentTeamMap>>().Object);
 
-        var seedDetailsList = JsonDataReader.ReadSeedFileJsonData()["R16"];
+        var seedDetailsList = JsonDataReader.ReadSeedFileJsonData()[MatchCategoryType.RoundOf16];
 
         var command = new CreateTeamsCommand
         {
+
             SeedDetails = JsonDataReader.ReadSeedFileJsonData()
         };
 

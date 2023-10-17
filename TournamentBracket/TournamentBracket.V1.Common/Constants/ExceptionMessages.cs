@@ -18,5 +18,7 @@ public static class ExceptionMessages
 
     public const string TournamentNameShouldBeUniqueException = "Tournament Name should be unique";
 
-    public const string ExpectedTeamsAreNoPresentException = "TExpected teams are not present";
+    public const string ExpectedTeamsAreNoPresentException = "Expected teams are not present";
+
+    public const string MatchCategoryNotFound = "Match category not found";
 }

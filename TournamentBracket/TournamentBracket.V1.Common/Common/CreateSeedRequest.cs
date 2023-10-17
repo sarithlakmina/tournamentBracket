@@ -2,10 +2,5 @@
 
 public class CreateSeedRequest
 {
-    public List<SeedDetails> SeedDetails { get; set; }
-}
-
-public class Temp
-{
-    public Dictionary<string, List<SeedDetails>> Data { get; set; }
+    public Dictionary<string, List<SeedDetails>> SeedCategories { get; set; }
 }

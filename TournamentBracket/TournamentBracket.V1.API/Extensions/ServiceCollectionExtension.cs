@@ -13,7 +13,7 @@ public static class ServiceCollectionExtension
     {
         serviceCollection.ConfigureControllers();
 
-        serviceCollection.AddMediatR(typeof(CreateTeamsCommand).Assembly);
+        serviceCollection.AddMediatR(typeof(CreateTeamsCommandHandler).Assembly);
 
         serviceCollection.RegisterDbContexts(configuration);
     }

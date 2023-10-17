@@ -18,11 +18,11 @@ namespace TournamentBracket.BackEnd.V1.Business.Actions.Teams
         public string WinnerName { get; set; }
     }
 
-    public class AdvanceTeamCommandHandler : BackEndGenericHandler, IRequestHandler<AdvanceTeamCommand, AdvanceTeamCommandResult>
+    public class CreateAdvanceTeamCommandHandler : BackEndGenericHandler, IRequestHandler<AdvanceTeamCommand, AdvanceTeamCommandResult>
     {
         private readonly IMediator mediator;
 
-        public AdvanceTeamCommandHandler(ITournamentBracketDbContext dbContext, IMediator mediator) : base(dbContext)
+        public CreateAdvanceTeamCommandHandler(ITournamentBracketDbContext dbContext, IMediator mediator) : base(dbContext)
         {
             this.mediator = mediator;
         }

@@ -2,6 +2,7 @@
 using TournamentBracket.BackEnd.V1.Business.Actions.Definitions;
 using TournamentBracket.BackEnd.V1.Business.Actions.Matches;
 using TournamentBracket.BackEnd.V1.Common.Common;
+using TournamentBracket.BackEnd.V1.Common.Constants;
 using TournamentBracket.BackEnd.V1.Common.Database;
 using TournamentBracket.BackEnd.V1.Common.DTO;
 using TournamentBracket.BackEnd.V1.Common.Entity;
@@ -37,13 +38,15 @@ public class CreateTeamsCommandHandler : BackEndGenericHandler, IRequestHandler<
 
         var seedTeamIDMaps = new Dictionary<Guid, string>();
 
-        var typeOfMatch = request.SeedDetails.Keys.FirstOrDefault();  //should add a validation for key
+        var typeOfMatch = request.SeedDetails.Keys.FirstOrDefault()
+                 ?? throw new Exception(ExceptionMessages.MatchCategoryNotFound);
+
         var seedDetailsList = request.SeedDetails[typeOfMatch];
 
         #region Create Tournament
         var createdTournamentID = await mediator.Send(new CreateTournamentsCommand
         {
-            Name = "Fifa 2022"  // hard coded for now
+            Name = TournamentNames.FIFA2022 // hard coded for now
         });
 
         #endregion

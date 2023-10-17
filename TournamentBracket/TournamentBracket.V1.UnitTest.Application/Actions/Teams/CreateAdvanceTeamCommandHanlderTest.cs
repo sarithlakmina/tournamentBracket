@@ -10,13 +10,13 @@ using TournamentBracket.V1.UnitTest.Application.Common.Fixtures;
 
 namespace TournamentBracket.V1.UnitTest.Application.Actions.Teams;
 
-public class AdvanceTeamCommandHanlderTest : IClassFixture<TestFixture>
+public class CreateAdvanceTeamCommandHanlderTest : IClassFixture<TestFixture>
 {
     private readonly Mock<ITournamentBracketDbContext> mockDbContext;
     private readonly Mock<IMediator> mediatorMock;
     private readonly IMediator mediator;
     private readonly Guid MockTournamentID;
-    public AdvanceTeamCommandHanlderTest(TestFixture testFixture)
+    public CreateAdvanceTeamCommandHanlderTest(TestFixture testFixture)
     {
         mockDbContext = new Mock<ITournamentBracketDbContext>();
         mediatorMock = new Mock<IMediator>();
@@ -38,7 +38,7 @@ public class AdvanceTeamCommandHanlderTest : IClassFixture<TestFixture>
             AdvanceTeamRequest = requestData
         };
 
-        var handler = new AdvanceTeamCommandHandler(mockDbContext.Object, mediator);
+        var handler = new CreateAdvanceTeamCommandHandler(mockDbContext.Object, mediator);
 
 
         //Act
@@ -88,7 +88,7 @@ public class AdvanceTeamCommandHanlderTest : IClassFixture<TestFixture>
 
         mockDbContext.Setup(x => x.GetAllTeams()).ReturnsAsync(teamsList);
 
-        var handler = new AdvanceTeamCommandHandler(mockDbContext.Object, mediator);
+        var handler = new CreateAdvanceTeamCommandHandler(mockDbContext.Object, mediator);
 
 
         //Act
@@ -137,7 +137,7 @@ public class AdvanceTeamCommandHanlderTest : IClassFixture<TestFixture>
 
         mockDbContext.Setup(x => x.GetAllTeams()).ReturnsAsync(teamsList);
 
-        var handler = new AdvanceTeamCommandHandler(mockDbContext.Object, mediator);
+        var handler = new CreateAdvanceTeamCommandHandler(mockDbContext.Object, mediator);
 
         // Mocking the LINQ query
         var roundOf16Winners = new List<string> { "Test1", "Test2" }; // Replace with your expected list of winners
