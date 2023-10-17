@@ -35,7 +35,7 @@ public class CreateTournamentsCommandHandler : BackEndGenericHandler, IRequestHa
         var tournament = new Tournament
         {
             TournamentID = Guid.NewGuid(),
-            TournamentName = request.Name,
+            Name = request.Name,
         };
 
         tournamentRepository.Tournaments.Add(tournament);

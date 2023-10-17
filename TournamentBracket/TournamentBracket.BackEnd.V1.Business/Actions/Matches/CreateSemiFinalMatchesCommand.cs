@@ -52,22 +52,20 @@ namespace TournamentBracket.BackEnd.V1.Business.Actions.Matches
             var match1 = new Match
             {
                 TournamentID = request.TournamentID,
-                MatchID = firstSemiFinalMatchID
+                MatchID = firstSemiFinalMatchID,
+                HomeTeamID = request.TeamIDSeedMap.FirstOrDefault(x => x.Value == firstSemiFinalMatchSeeds[0]).Key,
+                AwayTeamID = request.TeamIDSeedMap.FirstOrDefault(x => x.Value == firstSemiFinalMatchSeeds[1]).Key
             };
-
-            match1.HomeTeamID = request.TeamIDSeedMap.FirstOrDefault(x => x.Value == firstSemiFinalMatchSeeds[0]).Key;
-            match1.AwayTeamID = request.TeamIDSeedMap.FirstOrDefault(x => x.Value == firstSemiFinalMatchSeeds[1]).Key;
 
             matchList.Add(match1);
 
             var match2 = new Match
             {
                 TournamentID = request.TournamentID,
-                MatchID = secondSemiFinalMatchID
+                MatchID = secondSemiFinalMatchID,
+                HomeTeamID = request.TeamIDSeedMap.FirstOrDefault(x => x.Value == secondSemiFinalMatchSeeds[0]).Key,
+                AwayTeamID = request.TeamIDSeedMap.FirstOrDefault(x => x.Value == secondSemiFinalMatchSeeds[1]).Key
             };
-
-            match2.HomeTeamID = request.TeamIDSeedMap.FirstOrDefault(x => x.Value == secondSemiFinalMatchSeeds[0]).Key;
-            match2.AwayTeamID = request.TeamIDSeedMap.FirstOrDefault(x => x.Value == secondSemiFinalMatchSeeds[1]).Key;
 
             matchList.Add(match2);
 
@@ -92,7 +90,6 @@ namespace TournamentBracket.BackEnd.V1.Business.Actions.Matches
                 MatchCategoryID = matchcategoryID,
                 MatchID = firstSemiFinalMatchID,
                 TournamentID = request.TournamentID,
-                IsMatchCompleted = false
             };
 
             quaterFinalMatchMatchCategoryMaps.Add(matchMatchCategoryMap1);
@@ -103,7 +100,6 @@ namespace TournamentBracket.BackEnd.V1.Business.Actions.Matches
                 MatchCategoryID = matchcategoryID,
                 MatchID = secondSemiFinalMatchID,
                 TournamentID = request.TournamentID,
-                IsMatchCompleted = false
             };
 
             quaterFinalMatchMatchCategoryMaps.Add(matchMatchCategoryMap2);

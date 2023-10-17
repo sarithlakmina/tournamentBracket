@@ -101,58 +101,85 @@ public class CreateAdvanceTeamCommandHanlderTest : IClassFixture<TestFixture>
     }
 
     [Fact]
-    public async Task AdvanceTeam_R16_MatchFixtures_Success_Test()
+    public async Task AdvanceTeam_R16_MatchFixtures_MatchesNotFOund_Error_Test()
     {
         //Arrange
-        var requestData = JsonDataReader.ReadAdvanceEventData();
-        var teamData = JsonDataReader.ReadSeedFileJsonData();
+        var eventData = JsonDataReader.ReadAdvanceEventData();
+        var seedData = JsonDataReader.ReadSeedFileJsonData();
 
         var command = new AdvanceTeamCommand
         {
-            AdvanceTeamRequest = requestData
+            AdvanceTeamRequest = eventData
         };
 
         // Arrange
-
-        var team1 = new Team
+        var teamsList = new List<Team>();
+        for (int i = 0; i < eventData.Events.Count; i++)
         {
-            Name = "Test1",
-            Seed = "A1",
-            TeamID = Guid.NewGuid(),
-            CreatedAt = DateTime.Now,
-        };
+            string eventName = eventData.Events[i];
+            string seed = string.Empty;
 
-        var team2 = new Team
-        {
-            Name = "Test2",
-            Seed = "A2",
-            TeamID = Guid.NewGuid(),
-            CreatedAt = DateTime.Now,
-        };
+            if (seedData.ContainsKey(eventName))
+            {
+                var seedDetails = seedData[eventName];
+            }
 
-        var teamsList = new List<Team>
-        {
-            team1,team2
-        };
+            var team = new Team
+            {
+                Name = eventName,
+                Seed = seed,
+                TeamID = Guid.NewGuid(),
+                CreatedAt = DateTime.Now,
+            };
+
+            teamsList.Add(team);
+        }
 
         mockDbContext.Setup(x => x.GetAllTeams()).ReturnsAsync(teamsList);
 
         var handler = new CreateAdvanceTeamCommandHandler(mockDbContext.Object, mediator);
 
         // Mocking the LINQ query
-        var roundOf16Winners = new List<string> { "Test1", "Test2" }; // Replace with your expected list of winners
+        var roundOf16Winners = new List<string> { "Test1", "Test2" };
 
-        // Simulating the behavior of the LINQ query
+
         var roundOf16WinningTeamsTeamIDs = teamsList
             .Where(team => roundOf16Winners.Contains(team.Name))
             .Select(team => team.TeamID)
             .ToList();
 
+        mockDbContext.Setup(x => x.GetAllMatches(roundOf16WinningTeamsTeamIDs))
+    .ReturnsAsync(GenerateMockMatches(16, MockTournamentID));
+
         //Act
 
-        var result = await handler.Handle(command, CancellationToken.None);
+        var exception = await Assert.ThrowsAsync<Exception>(async () => await handler.Handle(command, CancellationToken.None));
+
 
         // Assert
-        Assert.NotNull(roundOf16WinningTeamsTeamIDs);
+        Assert.Contains(ExceptionMessages.MatchNotFoundException, exception.Message);
+    }
+
+    [Fact]
+    public async Task AdvanceTeam_R16_MatchFixtures_Success_test()
+    {
+
+    }
+
+    private List<BackEnd.V1.Common.Entity.Match> GenerateMockMatches(int numberOfMatches, Guid tournamentId)
+    {
+        var matches = new List<BackEnd.V1.Common.Entity.Match>();
+        for (int i = 0; i < numberOfMatches; i++)
+        {
+            matches.Add(new BackEnd.V1.Common.Entity.Match
+            {
+                TournamentID = MockTournamentID,
+                MatchID = Guid.NewGuid(),
+                HomeTeamID = Guid.NewGuid(),
+                AwayTeamID = Guid.NewGuid(),
+                IsMatchCompleted = false,
+            });
+        }
+        return matches;
     }
 }

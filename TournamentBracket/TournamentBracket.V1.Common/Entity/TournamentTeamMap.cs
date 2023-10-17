@@ -6,7 +6,6 @@
         public Guid TournamentID { get; set; }
         public Guid TeamID { get; set; }
         public DateTimeOffset CreatedAt { get; set; }
-        public bool IsElemenated { get; set; } = false;
 
         public virtual Tournament Tournament { get; set; }
         public virtual Team Team { get; set; }

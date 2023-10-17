@@ -57,7 +57,7 @@ public class GetAllTournamentsQueryHandlerTest : IClassFixture<TestFixture>
         var testTournament = new Tournament
         {
             TournamentID = MockTournamentID,
-            TournamentName = "Cricket 2023",
+            Name = "Cricket 2023",
             Winner = Guid.NewGuid()
         };
 

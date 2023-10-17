@@ -145,7 +145,6 @@ public class CreateQuaterFinalMatchesCommandHandler : BackEndGenericHandler, IRe
                 MatchCategoryID = matchcategoryID,
                 MatchID = item.MatchID,
                 TournamentID = request.TournamentID,
-                IsMatchCompleted = false
             };
 
             quaterFinalMatchMatchCategoryMaps.Add(matchMatchCategoryMap);

@@ -87,8 +87,7 @@ public class CreateFinalMatchFixtureHandler : BackEndGenericHandler, IRequestHan
             MatchMatchCategoryMapID = Guid.NewGuid(),
             MatchCategoryID = matchcategoryID,
             MatchID = finalMatchID,
-            TournamentID = request.TournamentID,
-            IsMatchCompleted = false
+            TournamentID = request.TournamentID
         };
 
         matchMatchCategoryMapRepository.MatchMatchCategoryMaps.Add(matchMatchCategoryMap);

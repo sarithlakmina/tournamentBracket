@@ -10,7 +10,7 @@ public sealed class TournamentEntityDescriptor : IEntityTypeConfiguration<Tourna
     {
         builder.HasKey(t => t.TournamentID);
 
-        builder.Property(t => t.TournamentName)
+        builder.Property(t => t.Name)
             .IsRequired(true)
             .HasMaxLength(250);
     }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TournamentBracket.BackEnd.V1.Persistence.EFCustomizations;
 
@@ -11,9 +12,10 @@ using TournamentBracket.BackEnd.V1.Persistence.EFCustomizations;
 namespace TournamentBracket.BackEnd.V1.Persistence.Migrations
 {
     [DbContext(typeof(TournamentBracketDbContext))]
-    partial class TournamentBracketDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231017202229_Update_Tables_RefactoringNamePropertyToConsistent")]
+    partial class Update_Tables_RefactoringNamePropertyToConsistent
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

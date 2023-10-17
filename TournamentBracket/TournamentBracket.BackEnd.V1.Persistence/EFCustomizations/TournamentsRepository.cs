@@ -12,7 +12,7 @@ public partial class TournamentBracketDbContext : ITournamentRepository
 {
     public async Task<bool> IsTournamentNameUniqueToCreate(string Name)
     {
-        var isNameAlreadyTaken = await Tournaments.AnyAsync(o => o.TournamentName.Equals(Name));
+        var isNameAlreadyTaken = await Tournaments.AnyAsync(o => o.Name.Equals(Name));
         return !isNameAlreadyTaken;
     }
     public Task<List<Tournament>> GetAllTournaments()
@@ -47,5 +47,5 @@ public partial class TournamentBracketDbContext : ITournamentRepository
         => Tournaments.Where(t => t.TournamentID == TournamentID && t.Winner.HasValue).Select(t => t.Winner).FirstAsync();
 
     public Task<Tournament> GetTournamentByName(string Name)
-        => Tournaments.FirstOrDefaultAsync(t => t.TournamentName == Name);
+        => Tournaments.FirstOrDefaultAsync(t => t.Name == Name);
 }

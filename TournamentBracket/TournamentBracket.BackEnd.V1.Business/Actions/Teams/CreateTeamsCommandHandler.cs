@@ -74,6 +74,7 @@ public class CreateTeamsCommandHandler : BackEndGenericHandler, IRequestHandler<
             teamResponseDtoList.Add(teamResponse);
 
             seedTeamIDMaps.Add(teamID, item.Seed);
+
             #endregion
 
             #region Create Tournament Team Map
@@ -93,8 +94,6 @@ public class CreateTeamsCommandHandler : BackEndGenericHandler, IRequestHandler<
         teamRepository.Teams.AddRange(teams);
 
         tournamentTeamMapRepository.TournamentTeamMaps.AddRange(tournamentTeamMaps);
-
-
 
         #region Create Match Fixtures
 

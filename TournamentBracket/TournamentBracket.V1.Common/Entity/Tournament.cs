@@ -3,7 +3,7 @@
 public class Tournament
 {
     public Guid TournamentID { get; set; }
-    public string TournamentName { get; set; }
+    public string Name { get; set; }
     public Guid? Winner { get; set; }
     public Guid? SecondPlace { get; set; }
     public Guid? ThirdPlace { get; set; }

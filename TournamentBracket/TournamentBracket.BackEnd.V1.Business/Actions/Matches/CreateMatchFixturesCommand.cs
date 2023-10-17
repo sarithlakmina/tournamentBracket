@@ -95,8 +95,7 @@ namespace TournamentBracket.BackEnd.V1.Business.Actions.Matches
                     MatchMatchCategoryMapID = Guid.NewGuid(),
                     MatchCategoryID = matchcategoryID,
                     MatchID = match.MatchID,
-                    TournamentID = request.TournamentID,
-                    IsMatchCompleted = false
+                    TournamentID = request.TournamentID
                 };
 
                 roundOf16MatchMatchCategoryMaps.Add(matchMatchCategoryMap);

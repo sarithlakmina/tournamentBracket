@@ -93,7 +93,7 @@ public class CreateTournamentCommandHandlerTest : IClassFixture<TestFixture>
 
         //Assert
 
-        mockDbContext.Verify(x => x.Tournaments.Add(It.Is<Tournament>(t => t.TournamentName == command.Name)), Times.Once);
+        mockDbContext.Verify(x => x.Tournaments.Add(It.Is<Tournament>(t => t.Name == command.Name)), Times.Once);
 
     }
 

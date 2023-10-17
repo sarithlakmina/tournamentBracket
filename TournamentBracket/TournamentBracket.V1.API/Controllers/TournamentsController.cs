@@ -5,11 +5,11 @@ using TournamentBracket.BackEnd.V1.Business.Actions.Tournaments;
 
 namespace TournamentBracket.BackEnd.V1.API.Controllers;
 
-public class TournamentController : BaseController
+public class TournamentsController : BaseController
 {
     private readonly IMediator mediator;
 
-    public TournamentController(IMediator mediator)
+    public TournamentsController(IMediator mediator)
     {
         this.mediator = mediator;
     }

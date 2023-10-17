@@ -51,7 +51,7 @@ namespace TournamentBracket.BackEnd.V1.Business.Actions.Teams
                 roundOf16WinningTeamsSeedList.Add(teamIDSeedMap[team]);
             }
 
-            var quaterFinalmatches = await matchRepository.GetAllMatches(roundOf16WinningTeamsTeamIDs);
+            var quaterFinalmatches = await matchRepository.GetAllMatches(roundOf16WinningTeamsTeamIDs) ?? throw new Exception(ExceptionMessages.MatchNotFoundException);
 
 
             var tournamentID = quaterFinalmatches.Select(m => m.TournamentID).FirstOrDefault();
@@ -85,8 +85,8 @@ namespace TournamentBracket.BackEnd.V1.Business.Actions.Teams
             var quaterFinalsWinningTeamsSeedList = new List<string>();
 
             var quaterFinalWinners = request.AdvanceTeamRequest.Events
-               .GroupBy(e => e) // Group the elements by their value
-               .Where(el => el.Count() > 1) // Filter groups with count more than 1
+               .GroupBy(e => e)
+               .Where(el => el.Count() > 1)
                .Select(el => el.Key);
 
 
