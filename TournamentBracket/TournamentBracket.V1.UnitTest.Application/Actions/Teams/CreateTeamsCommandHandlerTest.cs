@@ -7,20 +7,23 @@ using TournamentBracket.BackEnd.V1.Common.Database;
 using TournamentBracket.BackEnd.V1.Common.DTO;
 using TournamentBracket.BackEnd.V1.Common.Entity;
 using TournamentBracket.V1.UnitTest.Application.Common;
+using TournamentBracket.V1.UnitTest.Application.Common.Fixtures;
 
 namespace TournamentBracket.V1.UnitTest.Application.Actions.Teams;
 
-public class CreateTeamsCommandHandlerTest
+public class CreateTeamsCommandHandlerTest : IClassFixture<TestFixture>
 {
     private readonly Mock<ITournamentBracketDbContext> mockDbContext;
     private readonly Mock<IMediator> mediatorMock;
     private readonly IMediator mediator;
+    private readonly Guid MockTournamentID;
 
-    public CreateTeamsCommandHandlerTest()
+    public CreateTeamsCommandHandlerTest(TestFixture testFixture)
     {
         mockDbContext = new Mock<ITournamentBracketDbContext>();
         mediatorMock = new Mock<IMediator>();
         mediator = mediatorMock.Object;
+        MockTournamentID = testFixture.TournamentTestID;
     }
 
     [Fact]
@@ -31,7 +34,7 @@ public class CreateTeamsCommandHandlerTest
         mediatorMock.Setup(m => m.Send(It.IsAny<CreateTournamentsCommand>(), default))
             .ReturnsAsync(new CreateTournamentsCommandResult
             {
-                TournamentID = TestHelperData.TournamentTestID
+                TournamentID = MockTournamentID
             });
 
         mediatorMock.Setup(m => m.Send(It.IsAny<CreateMatchFixturesCommand>(), default))
@@ -54,7 +57,7 @@ public class CreateTeamsCommandHandlerTest
         var teamResponseList = new List<TeamResponseDto>();
         var seedTeamIDMaps = new Dictionary<Guid, string>();
         var tournamentTeamMaps = new List<TournamentTeamMap>();
-        var createdTournamentID = TestHelperData.TournamentTestID;
+        var createdTournamentID = MockTournamentID;
 
         foreach (var item in seedDetailsList)
         {

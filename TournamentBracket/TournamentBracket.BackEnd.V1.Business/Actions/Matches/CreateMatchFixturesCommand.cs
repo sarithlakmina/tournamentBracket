@@ -38,7 +38,7 @@ namespace TournamentBracket.BackEnd.V1.Business.Actions.Matches
         {
 
             if (request.TeamsSeedDetails.Count != 16)
-                throw new ArgumentException(ExceptionMessages.NumberOfTeamsIncorrectException);
+                throw new Exception(ExceptionMessages.NumberOfTeamsIncorrectException);
 
             var seededTeams = request.TeamsSeedDetails.OrderByDescending(SeedDetails => SeedDetails.Value).ToList();
 

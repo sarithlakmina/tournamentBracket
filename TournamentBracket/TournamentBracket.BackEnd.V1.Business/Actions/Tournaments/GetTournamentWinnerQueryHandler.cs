@@ -31,6 +31,9 @@ public class GetTournamentWinnerQueryHandler : BackEndGenericHandler, IRequestHa
 
         var winner = await tournamentRepository.GetTournamentWinner(request.TournamentID);
 
+        if (winner == null)
+            throw new Exception(ExceptionMessages.TournamentHasNoWinnerFoundException);
+
         return new GetTournamentWinnerQueryResult
         {
             WinnerName = winner.FirstOrDefault()

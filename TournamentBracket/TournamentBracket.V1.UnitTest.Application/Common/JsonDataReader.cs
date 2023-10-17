@@ -25,14 +25,14 @@ public static class JsonDataReader
     public static AdvanceTeamRequestModel ReadAdvanceEventData()
     {
         var currentDirectory = Directory.GetCurrentDirectory();
-        var jsonFilePath = Path.Combine(currentDirectory, "Data", "SeedFile.json");
+        var jsonFilePath = Path.Combine(currentDirectory, "Data", "AdvanceEvents.json");
 
         var jsonData = File.ReadAllText(jsonFilePath);
-        var data = JsonSerializer.Deserialize<AdvanceTeamRequestModel>(jsonData, new JsonSerializerOptions
+        var returnData = JsonSerializer.Deserialize<AdvanceTeamRequestModel>(jsonData, new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
         });
 
-        return data;
+        return returnData;
     }
 }

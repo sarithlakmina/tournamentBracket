@@ -43,6 +43,9 @@ namespace TournamentBracket.BackEnd.V1.Business.Actions.Teams
 
             var roundOf16WinningTeamsTeamIDs = teams.Where(team => roundOf16Winners.Contains(team.Name)).Select(team => team.TeamID).ToList();
 
+            if (roundOf16WinningTeamsTeamIDs.Count == 0)
+                throw new Exception(ExceptionMessages.ExpectedTeamsAreNoPresentException);
+
             foreach (var team in roundOf16WinningTeamsTeamIDs)
             {
                 roundOf16WinningTeamsSeedList.Add(teamIDSeedMap[team]);

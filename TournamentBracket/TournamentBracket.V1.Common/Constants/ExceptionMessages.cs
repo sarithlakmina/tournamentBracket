@@ -16,5 +16,7 @@ public static class ExceptionMessages
 
     public const string TournamentNameCannotBeEmpty = "Tournament Name cannot be empty";
 
-    public const string TournamentNameShouldBeUnique = "Tournament Name should be unique";
+    public const string TournamentNameShouldBeUniqueException = "Tournament Name should be unique";
+
+    public const string ExpectedTeamsAreNoPresentException = "TExpected teams are not present";
 }
