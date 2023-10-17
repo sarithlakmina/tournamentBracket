@@ -10,8 +10,11 @@ namespace TournamentBracket.BackEnd.V1.Persistence.EFCustomizations;
 
 public partial class TournamentBracketDbContext : ITournamentRepository
 {
-    public Task<bool> DoesTournamentExist(Guid TournamentID)
-          => Tournaments.AnyAsync(o => o.TournamentID == TournamentID);
+    public async Task<bool> IsTournamentNameUniqueToCreate(string Name)
+    {
+        var isNameAlreadyTaken = await Tournaments.AnyAsync(o => o.TournamentName.Equals(Name));
+        return !isNameAlreadyTaken;
+    }
     public Task<List<Tournament>> GetAllTournaments()
           => Tournaments.ToListAsync();
 
@@ -32,8 +35,6 @@ public partial class TournamentBracketDbContext : ITournamentRepository
     public Task<Tournament> GetTournament(Guid TournamentID)
            => Tournaments.FirstOrDefaultAsync(t => t.TournamentID == TournamentID);
 
-
-
     public Task<List<string>> GetTournamentWinner(Guid tournamentID)
         => Teams.Join(Tournaments,
                 tm => tm.TeamID,
@@ -44,4 +45,7 @@ public partial class TournamentBracketDbContext : ITournamentRepository
 
     public Task<Guid?> GetTournamentWinnerIDs(Guid TournamentID)
         => Tournaments.Where(t => t.TournamentID == TournamentID && t.Winner.HasValue).Select(t => t.Winner).FirstAsync();
+
+    public Task<Tournament> GetTournamentByName(string Name)
+        => Tournaments.FirstOrDefaultAsync(t => t.TournamentName == Name);
 }

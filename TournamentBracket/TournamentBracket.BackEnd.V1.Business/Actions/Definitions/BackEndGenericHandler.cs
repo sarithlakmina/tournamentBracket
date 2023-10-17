@@ -5,7 +5,7 @@ namespace TournamentBracket.BackEnd.V1.Business.Actions.Definitions;
 
 public class BackEndGenericHandler
 {
-    private readonly ITournamentBracketDbContext dbContext;
+    protected readonly ITournamentBracketDbContext dbContext;
 
     protected IUnitOfWork unitOfWork;
 

@@ -3,6 +3,7 @@ using TournamentBracket.BackEnd.V1.Business.Actions.Definitions;
 using TournamentBracket.BackEnd.V1.Business.Actions.Matches;
 using TournamentBracket.BackEnd.V1.Common.Common;
 using TournamentBracket.BackEnd.V1.Common.Database;
+using TournamentBracket.BackEnd.V1.Common.DTO;
 using TournamentBracket.BackEnd.V1.Common.Entity;
 
 namespace TournamentBracket.BackEnd.V1.Business.Actions.Tournaments;
@@ -14,7 +15,7 @@ public class CreateTeamsCommand : IRequest<CreateTeamsCommandResult>
 
 public class CreateTeamsCommandResult
 {
-    public List<Team> Teams { get; set; }
+    public List<TeamResponseDto> Teams { get; set; }
 }
 
 public class CreateTeamsCommandHandler : BackEndGenericHandler, IRequestHandler<CreateTeamsCommand, CreateTeamsCommandResult>
@@ -28,33 +29,28 @@ public class CreateTeamsCommandHandler : BackEndGenericHandler, IRequestHandler<
 
     public async Task<CreateTeamsCommandResult> Handle(CreateTeamsCommand request, CancellationToken cancellationToken)
     {
-        var result = new CreateTeamsCommandResult();
         var teams = new List<Team>();
+        var teamResponseDtoList = new List<TeamResponseDto>();
         var tournamentTeamMaps = new List<TournamentTeamMap>();
-        var tournamentID = Guid.NewGuid();
 
         var isSuccess = false;
 
         var seedTeamIDMaps = new Dictionary<Guid, string>();
 
-        var typeOfMatch = request.SeedDetails.Keys.FirstOrDefault();
+        var typeOfMatch = request.SeedDetails.Keys.FirstOrDefault();  //should add a validation for key
         var seedDetailsList = request.SeedDetails[typeOfMatch];
 
         #region Create Tournament
-        var tournament = new Tournament
+        var createdTournamentID = await mediator.Send(new CreateTournamentsCommand
         {
-            TournamentID = tournamentID,
-            TournamentName = "FIFA 2022",  // hardcoded for now.
-        };
-
-        tournamentRepository.Tournaments.Add(tournament);
+            Name = "Fifa 2022"  // hard coded for now
+        });
 
         #endregion
 
-
         foreach (var item in seedDetailsList)
         {
-            #region Seed Teams
+            #region Create Teams
 
             var teamID = Guid.NewGuid();
             var seededTeam = new Team
@@ -66,6 +62,14 @@ public class CreateTeamsCommandHandler : BackEndGenericHandler, IRequestHandler<
             };
             teams.Add(seededTeam);
 
+            var teamResponse = new TeamResponseDto
+            {
+                Name = item.Team,
+                Seed = item.Seed,
+            };
+
+            teamResponseDtoList.Add(teamResponse);
+
             seedTeamIDMaps.Add(teamID, item.Seed);
             #endregion
 
@@ -74,7 +78,7 @@ public class CreateTeamsCommandHandler : BackEndGenericHandler, IRequestHandler<
             var tournamentTeamMapsToBeAdded = new TournamentTeamMap
             {
                 TournamentTeamMapID = Guid.NewGuid(),
-                TournamentID = tournamentID,
+                TournamentID = createdTournamentID.TournamentID,
                 TeamID = seededTeam.TeamID,
                 CreatedAt = DateTimeOffset.UtcNow
             };
@@ -82,11 +86,12 @@ public class CreateTeamsCommandHandler : BackEndGenericHandler, IRequestHandler<
 
             #endregion
         }
-        result.Teams = teams;
 
         teamRepository.Teams.AddRange(teams);
 
         tournamentTeamMapRepository.TournamentTeamMaps.AddRange(tournamentTeamMaps);
+
+
 
         #region Create Match Fixtures
 
@@ -94,7 +99,7 @@ public class CreateTeamsCommandHandler : BackEndGenericHandler, IRequestHandler<
         {
             MatchType = typeOfMatch,
             TeamsSeedDetails = seedTeamIDMaps,
-            TournamentID = tournamentID
+            TournamentID = createdTournamentID.TournamentID
         }, cancellationToken);
 
         isSuccess = createMatchFixtures.IsSuccess;
@@ -103,6 +108,9 @@ public class CreateTeamsCommandHandler : BackEndGenericHandler, IRequestHandler<
         if (isSuccess)
             await unitOfWork.SaveChangesAsync();
 
-        return result;
+        return new CreateTeamsCommandResult
+        {
+            Teams = teamResponseDtoList
+        };
     }
 }

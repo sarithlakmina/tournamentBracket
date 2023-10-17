@@ -21,12 +21,12 @@ public class TeamController : BaseController
     [Route("seed")]
     public async Task<ActionResult> SeedTeam([FromBody] Dictionary<string, List<SeedDetails>> createSeedRequest)
     {
-        await mediator.Send(new CreateTeamsCommand
+        var result = await mediator.Send(new CreateTeamsCommand
         {
             SeedDetails = createSeedRequest,
 
         });
-        return Ok(createSeedRequest);
+        return Ok(result.Teams);
     }
 
     [HttpPut]

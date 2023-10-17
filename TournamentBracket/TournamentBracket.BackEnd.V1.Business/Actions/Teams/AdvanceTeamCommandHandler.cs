@@ -31,7 +31,7 @@ namespace TournamentBracket.BackEnd.V1.Business.Actions.Teams
         {
             #region Initiate win for R16 matches
 
-            var roundOf16WinningTeamsTeamIDs = new List<Guid>();
+            //var roundOf16WinningTeamsTeamIDs = new List<Guid>();
 
             var teams = await teamRepository.GetAllTeams() ?? throw new Exception(ExceptionMessages.TeamNotFoundException);
 
@@ -39,9 +39,9 @@ namespace TournamentBracket.BackEnd.V1.Business.Actions.Teams
 
             var roundOf16WinningTeamsSeedList = new List<string>();
 
+            var roundOf16Winners = request.AdvanceTeamRequest.Events;
 
-            var roundOf16Winners = new HashSet<string>(request.AdvanceTeamRequest.Events);
-            roundOf16WinningTeamsTeamIDs.AddRange(teams.Where(team => roundOf16Winners.Contains(team.Name)).Select(team => team.TeamID));
+            var roundOf16WinningTeamsTeamIDs = teams.Where(team => roundOf16Winners.Contains(team.Name)).Select(team => team.TeamID).ToList();
 
             foreach (var team in roundOf16WinningTeamsTeamIDs)
             {

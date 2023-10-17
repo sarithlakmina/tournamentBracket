@@ -13,7 +13,7 @@ public interface ITournamentRepository : IUnitOfWork
     public Task<List<PathToVictoryDto>> GetPathToVictory(Guid TournamentID, Guid WinningTeamID);
     public Task<List<string>> GetTournamentWinner(Guid TournamentID);
     public Task<Guid?> GetTournamentWinnerIDs(Guid TournamentID);
-    public Task<bool> DoesTournamentExist(Guid TournamentID);
+    public Task<bool> IsTournamentNameUniqueToCreate(string Name);
 }
 
 

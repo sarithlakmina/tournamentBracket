@@ -17,11 +17,8 @@ public class GetTournamentWinnerQueryResult
 
 public class GetTournamentWinnerQueryHandler : BackEndGenericHandler, IRequestHandler<GetTournamentWinnerQuery, GetTournamentWinnerQueryResult>
 {
-    private readonly ITournamentBracketDbContext dbContext;
-
     public GetTournamentWinnerQueryHandler(ITournamentBracketDbContext dbContext) : base(dbContext)
     {
-        this.dbContext = dbContext;
     }
 
 

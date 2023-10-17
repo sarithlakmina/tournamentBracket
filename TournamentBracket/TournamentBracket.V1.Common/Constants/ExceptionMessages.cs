@@ -13,4 +13,8 @@ public static class ExceptionMessages
     public const string NumberOfTeamsIncorrectException = "The number of teams is wrong.";
 
     public const string TournamentHasNoWinnerFoundException = "Tournament has no winner yet";
+
+    public const string TournamentNameCannotBeEmpty = "Tournament Name cannot be empty";
+
+    public const string TournamentNameShouldBeUnique = "Tournament Name should be unique";
 }
