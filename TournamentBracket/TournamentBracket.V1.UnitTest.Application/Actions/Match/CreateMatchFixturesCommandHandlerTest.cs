@@ -26,12 +26,12 @@ public class CreateMatchFixturesCommandHandlerTest : IClassFixture<TestFixture>
     }
 
     [Fact]
-    public async Task CreateMatchFixtures_MatchCategory_FailureTest()
+    public async Task CreateMatchFixtures_MatchCategory_Failure_Test()
     {
         //Arrange
-        var TeamSeedsDetails = JsonDataReader.ReadSeedFileJsonData().Values;
+        var TeamSeedsDetails = MockJsonDataReader.ReadSeedFileData().Values;
         var tournamentID = MockTournamentID;
-        string matchType = JsonDataReader.ReadSeedFileJsonData().Keys.First();
+        string matchType = MockJsonDataReader.ReadSeedFileData().Keys.First();
 
         var moqTeamSeeds = MoqTeamSeedDetails.TeamSeedDetails();
 
@@ -56,11 +56,11 @@ public class CreateMatchFixturesCommandHandlerTest : IClassFixture<TestFixture>
     }
 
     [Fact]
-    public async Task CreateMatchFixtures_MatchCategory_SuccessTest()
+    public async Task CreateMatchFixtures_MatchCategory_Success_Test()
     {
         //Arrange
-        var TeamSeedsDetails = JsonDataReader.ReadSeedFileJsonData().Values;
-        string matchType = JsonDataReader.ReadSeedFileJsonData().Keys.First();
+        var TeamSeedsDetails = MockJsonDataReader.ReadSeedFileData().Values;
+        string matchType = MockJsonDataReader.ReadSeedFileData().Keys.First();
 
         var moqTeamSeeds = MoqTeamSeedDetails.TeamSeedDetails();
 

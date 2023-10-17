@@ -4,42 +4,39 @@ using TournamentBracket.BackEnd.V1.Common.Constants;
 using TournamentBracket.BackEnd.V1.Common.Database;
 using TournamentBracket.BackEnd.V1.Common.DTO;
 
-namespace TournamentBracket.BackEnd.V1.Business.Actions.Tournaments
+namespace TournamentBracket.BackEnd.V1.Business.Actions.Tournaments;
+
+public class GetPathToVictoryQuery : IRequest<GetPathToVictoryQueryResult>
 {
+    public Guid TournamentID { get; set; }
+}
 
-    public class GetPathToVictoryQuery : IRequest<GetPathToVictoryQueryResult>
+public class GetPathToVictoryQueryResult
+{
+    public List<PathToVictoryDto> PathToVictoryDto { get; set; }
+}
+
+public class GetPathToVictoryQueryHandler : BackEndGenericHandler, IRequestHandler<GetPathToVictoryQuery, GetPathToVictoryQueryResult>
+{
+    private readonly IMediator mediator;
+
+    public GetPathToVictoryQueryHandler(ITournamentBracketDbContext dbContext, IMediator mediator) : base(dbContext)
     {
-        public Guid TournamentID { get; set; }
+        this.mediator = mediator;
     }
 
-    public class GetPathToVictoryQueryResult
+    public async Task<GetPathToVictoryQueryResult> Handle(GetPathToVictoryQuery request, CancellationToken cancellationToken)
     {
-        public List<PathToVictoryDto> PathToVictoryDto { get; set; }
-    }
+        var winningTeamIDs = await tournamentRepository.GetTournamentWinnerIDs(request.TournamentID);
 
-    public class GetPathToVictoryQueryHandler : BackEndGenericHandler, IRequestHandler<GetPathToVictoryQuery, GetPathToVictoryQueryResult>
-    {
-        private readonly IMediator mediator;
+        if (winningTeamIDs == null)
+            throw new Exception(ExceptionMessages.TournamentHasNoWinnerFoundException);
 
-        public GetPathToVictoryQueryHandler(ITournamentBracketDbContext dbContext, IMediator mediator) : base(dbContext)
+        var result = await tournamentRepository.GetPathToVictory(request.TournamentID, winningTeamIDs.Value);
+
+        return new GetPathToVictoryQueryResult
         {
-            this.mediator = mediator;
-        }
-
-        public async Task<GetPathToVictoryQueryResult> Handle(GetPathToVictoryQuery request, CancellationToken cancellationToken)
-        {
-            var winningTeamIDs = await tournamentRepository.GetTournamentWinnerIDs(request.TournamentID);
-
-            if (winningTeamIDs == null)
-                throw new Exception(ExceptionMessages.TournamentHasNoWinnerFoundException);
-
-            var result = await tournamentRepository.GetPathToVictory(request.TournamentID, winningTeamIDs.Value);
-
-            return new GetPathToVictoryQueryResult
-            {
-                PathToVictoryDto = result
-            };
-        }
+            PathToVictoryDto = result
+        };
     }
-
 }

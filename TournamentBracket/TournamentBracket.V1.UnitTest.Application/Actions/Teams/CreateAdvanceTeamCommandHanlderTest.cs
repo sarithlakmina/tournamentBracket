@@ -25,11 +25,11 @@ public class CreateAdvanceTeamCommandHanlderTest : IClassFixture<TestFixture>
     }
 
     [Fact]
-    public async Task AdvanceTeam_R16_MatchFixtures_NoTeams_Error_Test()
+    public async Task AdvanceTeam_R16_MatchFixtures_NoTeams_Failure_Test()
     {
         //Arrange
-        var requestData = JsonDataReader.ReadAdvanceEventData();
-        var teamData = JsonDataReader.ReadSeedFileJsonData();
+        var requestData = MockJsonDataReader.ReadAdvanceEventData();
+        var teamData = MockJsonDataReader.ReadSeedFileData();
 
         mockDbContext.Setup(x => x.Teams).Returns(new Mock<DbSet<Team>>().Object);
 
@@ -50,11 +50,11 @@ public class CreateAdvanceTeamCommandHanlderTest : IClassFixture<TestFixture>
     }
 
     [Fact]
-    public async Task AdvanceTeam_R16_MatchFixtures_InvalidTeams_Error_Test()
+    public async Task AdvanceTeam_R16_MatchFixtures_InvalidTeams_Failure_Test()
     {
         //Arrange
-        var requestData = JsonDataReader.ReadAdvanceEventData();
-        var teamData = JsonDataReader.ReadSeedFileJsonData();
+        var requestData = MockJsonDataReader.ReadAdvanceEventData();
+        var teamData = MockJsonDataReader.ReadSeedFileData();
 
         mockDbContext.Setup(x => x.Teams).Returns(new Mock<DbSet<Team>>().Object);
 
@@ -101,11 +101,11 @@ public class CreateAdvanceTeamCommandHanlderTest : IClassFixture<TestFixture>
     }
 
     [Fact]
-    public async Task AdvanceTeam_R16_MatchFixtures_MatchesNotFOund_Error_Test()
+    public async Task AdvanceTeam_R16_MatchFixtures_MatchesNotFOund_Failure_Test()
     {
         //Arrange
-        var eventData = JsonDataReader.ReadAdvanceEventData();
-        var seedData = JsonDataReader.ReadSeedFileJsonData();
+        var eventData = MockJsonDataReader.ReadAdvanceEventData();
+        var seedData = MockJsonDataReader.ReadSeedFileData();
 
         var command = new AdvanceTeamCommand
         {

@@ -19,7 +19,7 @@ public class CreateTournamentCommandHandlerTest : IClassFixture<TestFixture>
     }
 
     [Fact]
-    public async Task CreateTournament_UniqueName_Test()
+    public async Task CreateTournament_UniqueNameValidate_Success_Test()
     {
         //Arrange       
 
@@ -45,7 +45,7 @@ public class CreateTournamentCommandHandlerTest : IClassFixture<TestFixture>
     }
 
     [Fact]
-    public async Task CreateTournament_EmptyName_Test()
+    public async Task CreateTournament_EmptyNameValidation_Success_Test()
     {
         //Arrange       
 

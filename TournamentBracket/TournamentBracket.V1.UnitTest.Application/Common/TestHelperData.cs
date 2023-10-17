@@ -2,6 +2,5 @@
 
 public static class TestHelperData
 {
-
-    public static string Winner = JsonDataReader.ReadAdvanceEventData().Winner;
+    public static string Winner = MockJsonDataReader.ReadAdvanceEventData().Winner;
 }

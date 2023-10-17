@@ -4,9 +4,9 @@ using TournamentBracket.BackEnd.V1.Common.Model;
 
 namespace TournamentBracket.V1.UnitTest.Application.Common;
 
-public static class JsonDataReader
+public static class MockJsonDataReader
 {
-    public static Dictionary<string, List<SeedDetails>> ReadSeedFileJsonData()
+    public static Dictionary<string, List<SeedDetails>> ReadSeedFileData()
     {
         var currentDirectory = Directory.GetCurrentDirectory();
         var jsonFilePath = Path.Combine(currentDirectory, "Data", "SeedFile.json");

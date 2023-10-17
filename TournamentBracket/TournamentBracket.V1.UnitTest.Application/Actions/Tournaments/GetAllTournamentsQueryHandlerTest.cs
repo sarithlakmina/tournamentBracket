@@ -21,7 +21,7 @@ public class GetAllTournamentsQueryHandlerTest : IClassFixture<TestFixture>
     }
 
     [Fact]
-    public async Task GetTournamentWinner_EmptyTournamentIDRequestTest()
+    public async Task GetTournamentWinner_EmptyTournamentIDRequestValidation_Success_Test()
     {
         //Arrange       
 
@@ -43,7 +43,7 @@ public class GetAllTournamentsQueryHandlerTest : IClassFixture<TestFixture>
     }
 
     [Fact]
-    public async Task GetTournamentWinner_WithValidID_NoWinnersTest()
+    public async Task GetTournamentWinner_WithValidID_NoWinners_Success_Test()
     {
         //Arrange       
 

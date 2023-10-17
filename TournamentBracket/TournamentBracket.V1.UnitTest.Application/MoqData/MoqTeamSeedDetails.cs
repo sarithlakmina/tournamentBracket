@@ -7,7 +7,7 @@ public static class MoqTeamSeedDetails
     public static Dictionary<Guid, string> TeamSeedDetails()
     {
         var moqDictionary = new Dictionary<Guid, string>();
-        var seedList = JsonDataReader.ReadSeedFileJsonData();
+        var seedList = MockJsonDataReader.ReadSeedFileData();
         var seeds = seedList.SelectMany(a => a.Value).ToList();
 
         foreach (var seed in seeds)

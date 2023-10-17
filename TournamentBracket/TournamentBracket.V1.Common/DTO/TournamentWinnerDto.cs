@@ -1,7 +1,5 @@
-﻿namespace TournamentBracket.BackEnd.V1.Common.DTO
+﻿namespace TournamentBracket.BackEnd.V1.Common.DTO;
+public class TournamentWinnerDto
 {
-    public class TournamentWinnerDto
-    {
-        public string TeamName { get; set; }
-    }
+    public string TeamName { get; set; }
 }

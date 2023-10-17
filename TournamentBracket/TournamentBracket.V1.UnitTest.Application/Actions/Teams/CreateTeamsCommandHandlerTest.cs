@@ -30,7 +30,7 @@ public class CreateTeamsCommandHandlerTest : IClassFixture<TestFixture>
 
 
     [Fact]
-    public async Task CreateTeam_CategoryNotFound_Error_Test()
+    public async Task CreateTeam_CategoryNotFound_Failure_Test()
     {
         //Arrange
 
@@ -52,7 +52,7 @@ public class CreateTeamsCommandHandlerTest : IClassFixture<TestFixture>
         Assert.Contains(ExceptionMessages.MatchCategoryNotFound, exception.Message);
     }
     [Fact]
-    public async Task CreateTeams_SuccessTest()
+    public async Task CreateTeams_Success_Test()
     {
         //Arrange
 
@@ -71,12 +71,12 @@ public class CreateTeamsCommandHandlerTest : IClassFixture<TestFixture>
         mockDbContext.Setup(x => x.Teams).Returns(new Mock<DbSet<Team>>().Object);
         mockDbContext.Setup(x => x.TournamentTeamMaps).Returns(new Mock<DbSet<TournamentTeamMap>>().Object);
 
-        var seedDetailsList = JsonDataReader.ReadSeedFileJsonData()[MatchCategoryType.RoundOf16];
+        var seedDetailsList = MockJsonDataReader.ReadSeedFileData()[MatchCategoryType.RoundOf16];
 
         var command = new CreateTeamsCommand
         {
 
-            SeedDetails = JsonDataReader.ReadSeedFileJsonData()
+            SeedDetails = MockJsonDataReader.ReadSeedFileData()
         };
 
         var teams = new List<Team>();
